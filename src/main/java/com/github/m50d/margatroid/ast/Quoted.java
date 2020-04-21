@@ -13,4 +13,9 @@ public class Quoted implements Node {
 	public <T> T catamorphism(Catamorphism<T> catamorphism) {
 		return catamorphism.quoted(contents);
 	}
+
+	@Override
+	public String prettyPrint() {
+		return "{" + contents.map(n -> n.prettyPrint()) + "}";
+	}
 }

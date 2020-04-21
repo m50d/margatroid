@@ -9,4 +9,5 @@ public interface Node {
 		T literal(String value);
 	}
 	<T> T catamorphism(Catamorphism<T> catamorphism);
+	String prettyPrint();
 }
