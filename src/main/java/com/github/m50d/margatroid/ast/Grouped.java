@@ -17,6 +17,6 @@ public class Grouped implements Node {
 
 	@Override
 	public String prettyPrint() {
-		return "[" + contents.map(n -> n.prettyPrint()).collect(Collectors.joining(" ")) + "]"; 
+		return "[ " + contents.map(n -> n.prettyPrint()).collect(Collectors.joining(" ")) + " ]"; 
 	}
 }

@@ -22,6 +22,7 @@ public class ParserTest {
 		parseResult = parser.parse("[ 1 2 3 ]").collect(Collectors.toList());
 		assertEquals(1, parseResult.size());
 		assert(parseResult.get(0) instanceof Grouped);
+		assertEquals("[ 1 2 3 ]", parseResult.get(0).prettyPrint());
 	}
 
 }

@@ -16,6 +16,6 @@ public class Quoted implements Node {
 
 	@Override
 	public String prettyPrint() {
-		return "{" + contents.map(n -> n.prettyPrint()) + "}";
+		return "{ " + contents.map(n -> n.prettyPrint()) + " }";
 	}
 }
