@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
+import com.github.m50d.margatroid.ast.Grouped;
 import com.github.m50d.margatroid.ast.Literal;
 import com.github.m50d.margatroid.ast.Node;
 
@@ -18,6 +19,9 @@ public class ParserTest {
 	public void basicFunctionality() {
 		List<Node> parseResult = parser.parse("1 2 3").collect(Collectors.toList());
 		assertEquals(Arrays.asList(new Literal("1"), new Literal("2"), new Literal("3")), parseResult);
+		parseResult = parser.parse("[ 1 2 3 ]").collect(Collectors.toList());
+		assertEquals(1, parseResult.size());
+		assert(parseResult.get(0) instanceof Grouped);
 	}
 
 }
