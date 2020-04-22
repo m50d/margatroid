@@ -9,6 +9,7 @@ public class DefaultScope extends Scope {
 		super(Optional.empty());
 		contents.put("+", new Plus());
 		contents.put("eval", new Eval());
+		contents.put("proc", new Proc());
 	}
 
 }

@@ -19,4 +19,9 @@ public class Scope implements Value {
 	public void put(String key, Value value) {
 		contents.put(key, value);
 	}
+
+	@Override
+	public String prettyPrint() {
+		return "(scope)";
+	}
 }

@@ -1,6 +1,6 @@
 package com.github.m50d.margatroid.model.ast;
 
-public class Reference implements Node {
+public class Reference implements AstNode {
 	public final String value;
 
 	public Reference(String value) {

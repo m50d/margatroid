@@ -3,10 +3,10 @@ package com.github.m50d.margatroid.model.ast;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Grouped implements Node {
-	public final Stream<Node> contents;
+public class Grouped implements AstNode {
+	public final Stream<AstNode> contents;
 	
-	public Grouped(Stream<Node> contents) {
+	public Grouped(Stream<AstNode> contents) {
 		this.contents = contents;
 	}
 

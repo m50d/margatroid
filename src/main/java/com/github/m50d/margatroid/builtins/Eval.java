@@ -5,27 +5,29 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.github.m50d.margatroid.model.Function;
+import com.github.m50d.margatroid.model.Literal;
 import com.github.m50d.margatroid.model.Scope;
 import com.github.m50d.margatroid.model.Value;
-import com.github.m50d.margatroid.model.ast.Literal;
-import com.github.m50d.margatroid.model.ast.Node;
+import com.github.m50d.margatroid.model.Void;
+import com.github.m50d.margatroid.model.ast.LiteralNode;
+import com.github.m50d.margatroid.model.ast.AstNode;
 import com.github.m50d.margatroid.model.ast.Quoted;
-import com.github.m50d.margatroid.model.ast.Node.Catamorphism;
+import com.github.m50d.margatroid.model.ast.AstNode.Catamorphism;
 
 public class Eval implements Function {
 
 	@Override
-	public Value apply(List<Value> arguments, Scope scope) {
+	public Value apply(List<? extends Value> arguments, Scope scope) {
 		Catamorphism<Value> catamorphism = new Catamorphism<Value>() {
 			@Override
 			public Value grouped(Stream<Value> contents) {
 				List<Value> invocation = contents.collect(Collectors.toList());
-				String functionName = ((Literal) invocation.remove(0)).value;
+				String functionName = ((LiteralNode) invocation.remove(0)).value;
 				return ((Function) scope.get(functionName)).apply(invocation, scope);
 			}
 
 			@Override
-			public Value quoted(Stream<Node> contents) {
+			public Value quoted(Stream<AstNode> contents) {
 				return new Quoted(contents);
 			}
 
@@ -39,8 +41,10 @@ public class Eval implements Function {
 				return scope.get(value);
 			}
 		};
-		Node ast = (Node) arguments.get(0);
-		return ast.catamorphism(catamorphism);
+		Value current = new Void();
+		for(Value argument: arguments)
+			current = ((AstNode) argument).catamorphism(catamorphism);
+		return current;
 	}
 
 }

@@ -2,10 +2,10 @@ package com.github.m50d.margatroid.model.ast;
 
 import java.util.stream.Stream;
 
-public class Quoted implements Node {
-	public final Stream<Node> contents;
+public class Quoted implements AstNode {
+	public final Stream<AstNode> contents;
 
-	public Quoted(Stream<Node> contents) {
+	public Quoted(Stream<AstNode> contents) {
 		this.contents = contents;
 	}
 
