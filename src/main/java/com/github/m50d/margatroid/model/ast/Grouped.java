@@ -1,4 +1,4 @@
-package com.github.m50d.margatroid.ast;
+package com.github.m50d.margatroid.model.ast;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

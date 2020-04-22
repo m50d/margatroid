@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import com.github.m50d.margatroid.ast.Grouped;
-import com.github.m50d.margatroid.ast.Literal;
-import com.github.m50d.margatroid.ast.Node;
+import com.github.m50d.margatroid.model.ast.Grouped;
+import com.github.m50d.margatroid.model.ast.Literal;
+import com.github.m50d.margatroid.model.ast.Node;
 
 public class ParserTest {
 	Parser parser = new Parser();

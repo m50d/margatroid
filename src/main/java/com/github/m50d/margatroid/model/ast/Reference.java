@@ -1,4 +1,4 @@
-package com.github.m50d.margatroid.ast;
+package com.github.m50d.margatroid.model.ast;
 
 public class Reference implements Node {
 	public final String value;

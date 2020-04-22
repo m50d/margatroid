@@ -6,10 +6,10 @@ import java.util.Stack;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import com.github.m50d.margatroid.ast.Grouped;
-import com.github.m50d.margatroid.ast.Literal;
-import com.github.m50d.margatroid.ast.Node;
-import com.github.m50d.margatroid.ast.Quoted;
+import com.github.m50d.margatroid.model.ast.Grouped;
+import com.github.m50d.margatroid.model.ast.Literal;
+import com.github.m50d.margatroid.model.ast.Node;
+import com.github.m50d.margatroid.model.ast.Quoted;
 
 public class Parser {
 	Stream<Node> parse(Iterator<String> input) {
