@@ -1,12 +1,9 @@
-package com.github.m50d.margatroid;
+package com.github.m50d.margatroid.builtins;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.github.m50d.margatroid.builtins.DefaultScope;
-import com.github.m50d.margatroid.builtins.Eval;
 import com.github.m50d.margatroid.model.Function;
 import com.github.m50d.margatroid.model.Scope;
 import com.github.m50d.margatroid.model.Value;
@@ -14,11 +11,12 @@ import com.github.m50d.margatroid.model.ast.Literal;
 import com.github.m50d.margatroid.model.ast.Node;
 import com.github.m50d.margatroid.model.ast.Quoted;
 import com.github.m50d.margatroid.model.ast.Node.Catamorphism;
-import com.github.m50d.margatroid.parser.Parser;
 
-public class Margatroid {
-	Value stage(Node ast, Scope scope) {
-		return ast.catamorphism(new Catamorphism<Value>() {
+public class Eval implements Function {
+
+	@Override
+	public Value apply(List<Value> arguments, Scope scope) {
+		Catamorphism<Value> catamorphism = new Catamorphism<Value>() {
 			@Override
 			public Value grouped(Stream<Value> contents) {
 				List<Value> invocation = contents.collect(Collectors.toList());
@@ -40,11 +38,9 @@ public class Margatroid {
 			public Value reference(String value) {
 				return scope.get(value);
 			}
-		});
+		};
+		Node ast = (Node) arguments.get(0);
+		return ast.catamorphism(catamorphism);
 	}
-	
-	public Value run(String input) {
-		Node ast = new Parser().parse(input).collect(Collectors.toList()).get(0);
-		return new Eval().apply(Arrays.asList(ast), new DefaultScope());
-	}
+
 }
