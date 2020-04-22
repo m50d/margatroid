@@ -32,7 +32,7 @@ public class ParserTest {
 
 	@Test
 	public void nested() {
-		roundtripTest("[ [ ] ]");
+		roundtripTest("[ [ 1 ] ]");
 	}
 
 }

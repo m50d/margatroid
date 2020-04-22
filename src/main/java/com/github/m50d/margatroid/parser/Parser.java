@@ -2,7 +2,6 @@ package com.github.m50d.margatroid.parser;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Stack;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -13,29 +12,35 @@ import com.github.m50d.margatroid.ast.Node;
 import com.github.m50d.margatroid.ast.Quoted;
 
 public class Parser {
-	Stream<Node> parse(Iterator<String> input, Stream.Builder<Node> accumulator, Stack<Function<Stream<Node>, Stream.Builder<Node>>> stack) {
-		if (!input.hasNext()) {
-			assert stack.isEmpty();
-			return accumulator.build();
+	Stream<Node> parse(Iterator<String> input) {
+		Stream.Builder<Node> accumulator = Stream.builder();
+		final Stack<Function<Stream<Node>, Stream.Builder<Node>>> stack = new Stack<>();
+		while (input.hasNext()) {
+			String next = input.next().intern();
+			switch (next) {
+			case "]":
+			case "}":
+				accumulator = stack.pop().apply(accumulator.build());
+				break;
+			case "[":
+				Stream.Builder<Node> accumulator2 = accumulator;
+				stack.push(sn -> accumulator2.add(new Grouped(sn)));
+				accumulator = Stream.builder();
+				break;
+			case "{":
+				Stream.Builder<Node> accumulator3 = accumulator;
+				stack.push(sn -> accumulator3.add(new Quoted(sn)));
+				accumulator = Stream.builder();
+				break;
+			default:
+				accumulator.add(new Literal(next));
+			}
 		}
-		String next = input.next().intern();
-		switch (next) {
-		case "]":
-		case "}":
-			return parse(input, stack.pop().apply(accumulator.build()), stack);
-		case "[":
-			stack.push(sn -> accumulator.add(new Grouped(sn)));
-			return parse(input, Stream.builder(), stack);
-		case "{":
-			stack.push(sn -> accumulator.add(new Quoted(sn)));
-			return parse(input, Stream.builder(), stack);
-		default:
-			accumulator.add(new Literal(next));
-			return parse(input, accumulator, stack);
-		}
+		assert stack.isEmpty();
+		return accumulator.build();
 	}
 
 	public Stream<Node> parse(String input) {
-		return parse(Arrays.asList(input.split(" ")).it);
+		return parse(Arrays.asList(input.split(" ")).iterator());
 	}
 }
