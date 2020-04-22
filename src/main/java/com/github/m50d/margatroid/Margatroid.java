@@ -12,6 +12,7 @@ import com.github.m50d.margatroid.ast.Node.Catamorphism;
 import com.github.m50d.margatroid.ast.Quoted;
 import com.github.m50d.margatroid.builtins.Plus;
 import com.github.m50d.margatroid.model.Function;
+import com.github.m50d.margatroid.model.Value;
 import com.github.m50d.margatroid.parser.Parser;
 
 public class Margatroid {
@@ -20,28 +21,33 @@ public class Margatroid {
 		DEFAULT_SCOPE.put("+", new Plus());
 	}
 	
-	Node stage(Node ast, Map<String, Function> scope) {
-		return ast.catamorphism(new Catamorphism<Node>() {
+	Value stage(Node ast, Map<String, Function> scope) {
+		return ast.catamorphism(new Catamorphism<Value>() {
 			@Override
-			public Node grouped(Stream<Node> contents) {
-				List<Node> invocation = contents.collect(Collectors.toList());
+			public Value grouped(Stream<Value> contents) {
+				List<Value> invocation = contents.collect(Collectors.toList());
 				String functionName = ((Literal) invocation.remove(0)).value;
 				return scope.get(functionName).apply(invocation);
 			}
 
 			@Override
-			public Node quoted(Stream<Node> contents) {
+			public Value quoted(Stream<Node> contents) {
 				return new Quoted(contents);
 			}
 
 			@Override
-			public Node literal(String value) {
+			public Value literal(String value) {
 				return new Literal(value);
+			}
+
+			@Override
+			public Value reference(String value) {
+				return scope.get(value);
 			}
 		});
 	}
 	
-	public Node run(String input) {
+	public Value run(String input) {
 		Node ast = new Parser().parse(input).collect(Collectors.toList()).get(0);
 		return stage(ast, DEFAULT_SCOPE);
 	}

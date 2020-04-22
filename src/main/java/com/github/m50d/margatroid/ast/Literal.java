@@ -2,7 +2,9 @@ package com.github.m50d.margatroid.ast;
 
 import java.util.Objects;
 
-public final class Literal implements Node {
+import com.github.m50d.margatroid.model.Value;
+
+public final class Literal implements Node, Value {
 	public final String value;
 
 	public Literal(String value) {
