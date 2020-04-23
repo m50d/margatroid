@@ -1,14 +1,17 @@
-package com.github.m50d.margatroid.model;
+package com.github.m50d.margatroid.model.ast;
 
 import java.util.Objects;
 
-import com.github.m50d.margatroid.model.ast.LiteralNode;
-
-public class Literal implements Value {
+public final class Literal implements AstNode {
 	public final String value;
 
 	public Literal(String value) {
 		this.value = value;
+	}
+
+	@Override
+	public <T> T catamorphism(Catamorphism<T> catamorphism) {
+		return catamorphism.literal(value);
 	}
 
 	@Override
@@ -29,7 +32,7 @@ public class Literal implements Value {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LiteralNode other = (LiteralNode) obj;
+		Literal other = (Literal) obj;
 		return Objects.equals(value, other.value);
 	}
 }

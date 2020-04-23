@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import com.github.m50d.margatroid.model.ast.Grouped;
-import com.github.m50d.margatroid.model.ast.LiteralNode;
+import com.github.m50d.margatroid.model.ast.Literal;
 import com.github.m50d.margatroid.model.ast.AstNode;
 import com.github.m50d.margatroid.model.ast.Quoted;
 
@@ -33,7 +33,7 @@ public class Parser {
 				accumulator = Stream.builder();
 				break;
 			default:
-				accumulator.add(new LiteralNode(next));
+				accumulator.add(new Literal(next));
 			}
 		}
 		assert stack.isEmpty();

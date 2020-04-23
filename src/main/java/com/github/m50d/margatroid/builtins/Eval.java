@@ -5,11 +5,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.github.m50d.margatroid.model.Function;
-import com.github.m50d.margatroid.model.Literal;
 import com.github.m50d.margatroid.model.Scope;
 import com.github.m50d.margatroid.model.Value;
 import com.github.m50d.margatroid.model.Void;
-import com.github.m50d.margatroid.model.ast.LiteralNode;
+import com.github.m50d.margatroid.model.ast.Literal;
 import com.github.m50d.margatroid.model.ast.AstNode;
 import com.github.m50d.margatroid.model.ast.Quoted;
 import com.github.m50d.margatroid.model.ast.AstNode.Catamorphism;
@@ -22,7 +21,7 @@ public class Eval implements Function {
 			@Override
 			public Value grouped(Stream<Value> contents) {
 				List<Value> invocation = contents.collect(Collectors.toList());
-				String functionName = ((LiteralNode) invocation.remove(0)).value;
+				String functionName = ((Literal) invocation.remove(0)).value;
 				return ((Function) scope.get(functionName)).apply(invocation, scope);
 			}
 

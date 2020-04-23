@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import com.github.m50d.margatroid.model.ast.Grouped;
-import com.github.m50d.margatroid.model.ast.LiteralNode;
+import com.github.m50d.margatroid.model.ast.Literal;
 import com.github.m50d.margatroid.model.ast.AstNode;
 
 public class ParserTest {
@@ -24,7 +24,7 @@ public class ParserTest {
 	@Test
 	public void basicFunctionality() {
 		List<AstNode> parseResult = roundtripTest("1 2 3");
-		assertEquals(Arrays.asList(new LiteralNode("1"), new LiteralNode("2"), new LiteralNode("3")), parseResult);
+		assertEquals(Arrays.asList(new Literal("1"), new Literal("2"), new Literal("3")), parseResult);
 		parseResult = roundtripTest("[ 1 2 3 ]");
 		assertEquals(1, parseResult.size());
 		assert(parseResult.get(0) instanceof Grouped);
