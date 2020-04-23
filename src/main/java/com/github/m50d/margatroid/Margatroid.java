@@ -1,6 +1,6 @@
 package com.github.m50d.margatroid;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.github.m50d.margatroid.builtins.DefaultScope;
@@ -11,7 +11,7 @@ import com.github.m50d.margatroid.parser.Parser;
 
 public class Margatroid {
 	public Value run(String input) {
-		AstNode ast = new Parser().parse(input).collect(Collectors.toList()).get(0);
-		return new Eval().apply(Arrays.asList(ast), new DefaultScope());
+		List<AstNode> ast = new Parser().parse(input).collect(Collectors.toList());
+		return new Eval().apply(ast, new DefaultScope());
 	}
 }

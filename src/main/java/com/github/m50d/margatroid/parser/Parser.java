@@ -10,6 +10,7 @@ import com.github.m50d.margatroid.model.ast.Grouped;
 import com.github.m50d.margatroid.model.ast.Literal;
 import com.github.m50d.margatroid.model.ast.AstNode;
 import com.github.m50d.margatroid.model.ast.Quoted;
+import com.github.m50d.margatroid.model.ast.Reference;
 
 public class Parser {
 	Stream<AstNode> parse(Iterator<String> input) {
@@ -33,7 +34,7 @@ public class Parser {
 				accumulator = Stream.builder();
 				break;
 			default:
-				accumulator.add(new Literal(next));
+				accumulator.add(next.startsWith("$") ? new Reference(next.substring(1)) : new Literal(next));
 			}
 		}
 		assert stack.isEmpty();

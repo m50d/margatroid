@@ -14,5 +14,11 @@ public class MargatroidTest {
 		Value result = interpreter.run("[ + 1 2 3 ]");
 		assertEquals(new Literal("6"), result);
 	}
+	
+	@Test
+	public void function() {
+		Value result = interpreter.run("[ proc plus2 { x } { [ + 2 $x ] } ] [ plus2 3 ]");
+		assertEquals(new Literal("5"), result);
+	}
 
 }
