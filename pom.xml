@@ -5,12 +5,79 @@
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<scala.version>2.12.11</scala.version>
+		<scala.epoch>2.12</scala.epoch>
+		<scala.suffix>_${scala.epoch}</scala.suffix>
 	</properties>
 	<groupId>com.github.m50d</groupId>
 	<artifactId>margatroid</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.carrotgarden.maven</groupId>
+				<artifactId>scalor-maven-plugin${scala.suffix}</artifactId>
+				<version>1.5.0.20190502185130</version>
+				<configuration>
+					<definePluginList>
+						<dependency>
+							<groupId>org.wartremover</groupId>
+							<artifactId>wartremover${scala.suffix}</artifactId>
+							<version>1.2.1</version>
+						</dependency>
+						<dependency>
+							<groupId>org.spire-math</groupId>
+							<artifactId>kind-projector${scala.suffix}</artifactId>
+							<version>0.9.4</version>
+						</dependency>
+					</definePluginList>
+					<eclipseMavenPluginVersionRange>[1.8.0,1.14.0)</eclipseMavenPluginVersionRange>
+					<zincOptionsScala>
+						-deprecation
+						-feature
+						-language:higherKinds
+						-language:existentials
+						-language:postfixOps
+						-Xlint
+						-Yno-adapted-args
+						-Ywarn-dead-code
+						-Ywarn-numeric-widen
+						-Ywarn-value-discard
+						-Xfuture
+						-Ywarn-unused-import
+						-unchecked
+						-Ypartial-unification
+						-Dkp:genAsciiNames=true
+					</zincOptionsScala>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>eclipse-config</goal>
+							<goal>eclipse-prescomp</goal>
+							<goal>register-main</goal>
+							<goal>register-test</goal>
+							<goal>compile-main</goal>
+							<goal>compile-test</goal>
+							<goal>scala-js-link-main</goal>
+							<goal>scala-js-link-test</goal>
+							<goal>scala-js-env-prov-webjars</goal>
+							<goal>scala-js-env-prov-nodejs</goal>
+							<goal>scala-js-env-conf-nodejs</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	<dependencies>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
