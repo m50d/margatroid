@@ -2,7 +2,7 @@ package com.github.m50d.margatroid
 
 import org.junit.Test
 import org.junit.Assert._
-import com.github.m50d.margatroid.model.ast.Literal
+import com.github.m50d.margatroid.model.Literal
 
 class MargatroidTest {
 	val interpreter = new Margatroid()
