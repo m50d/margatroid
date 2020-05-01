@@ -6,6 +6,6 @@ import com.github.m50d.margatroid.builtins._
 class Margatroid {
   def run(input: String) = {
 		val ast = new Parser().parse(input)
-		eval(ast, defaultScope)
+		eval(ast, prelude)
 	}
 }

@@ -11,7 +11,7 @@ final case class Void() extends Value {
 final case class Scope(parent: Option[Scope], contents: Map[String, Value] = Map.empty) extends Value {
   override val prettyPrint = "(scope)"
   def get(key: String): Value = contents.get(key).getOrElse(parent.fold[Value](Void())(_ get key))
-  def put(key: String, value: Value) = copy(contents = contents + (key -> value))
+  def put(key: String, value: Value) = contents.put(key, value)
 }
 trait FunctionModel extends Value {
   override val prettyPrint = "(function)"

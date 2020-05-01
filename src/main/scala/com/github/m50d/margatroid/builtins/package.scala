@@ -12,12 +12,14 @@ import com.github.m50d.margatroid.model.Reference
 
 package object builtins {
   object eval extends FunctionModel {
-    def apply(arguments: IndexedSeq[Value], scope: Scope): Value = arguments.foldLeft[Value](Void()){
-      case (_, Grouped(IndexedSeq(Literal(functionName), args @ _*))) =>
-        scope.get(functionName).asInstanceOf[FunctionModel](args.toIndexedSeq, scope)
-      case (_, Reference(key)) => scope.get(key)  
-      case (_, x) => x
-    }
+    def apply(argument: Value, scope: Scope): Value = argument match {
+      case Grouped(IndexedSeq(Literal(functionName), args @ _*)) =>
+        scope.get(functionName).asInstanceOf[FunctionModel](args map (apply(_, scope)) toIndexedSeq, scope)
+      case Reference(key) => scope.get(key)  
+      case x => x
+    } 
+    override def apply(arguments: IndexedSeq[Value], scope: Scope): Value =
+      arguments.foldLeft[Value](Void())((_, x) => apply(x, scope))
   }
   object proc extends FunctionModel {
     def apply(arguments: IndexedSeq[Value], scope: Scope): Value = arguments match {
@@ -41,12 +43,5 @@ package object builtins {
       }.sum.toString)
   }
     
-  def defaultScope() = Scope(None, Map("+" -> +, "eval" -> eval, "proc" -> proc))
-//		List<String> argumentNames = ((Quoted) arguments.get(1)).contents.map(v -> ((Literal) v).value).collect(Collectors.toList());
-//		List<AstNode> body = ((Quoted) arguments.get(2)).contents.collect(Collectors.toList());
-//		Function function = new Function() {
-//			@Override
-//			public Valueu apply(List<? extends Valueu> arguments, Scope scope) {
-//				
-//			}};
+  def prelude() = Scope(None, Map("+" -> +, "eval" -> eval, "proc" -> proc))
 }
