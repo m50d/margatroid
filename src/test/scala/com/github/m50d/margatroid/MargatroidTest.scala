@@ -18,4 +18,10 @@ class MargatroidTest {
 		val result = interpreter.run("[ proc plus2 { x } { [ + 2 $x ] } ] [ plus2 3 ]")
 		assertEquals(new Literal("5"), result)
 	}
+	
+	@Test
+	def functionViaVariable() = {
+	  val result = interpreter.run("[ set p + ] [ $p 1 2 3 ]")
+		assertEquals(new Literal("6"), result)
+	}
 }

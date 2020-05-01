@@ -13,13 +13,21 @@ import com.github.m50d.margatroid.model.Reference
 package object builtins {
   object eval extends FunctionModel {
     def apply(argument: Value, scope: Scope): Value = argument match {
-      case Grouped(IndexedSeq(Literal(functionName), args @ _*)) =>
-        scope.get(functionName).asInstanceOf[FunctionModel](args map (apply(_, scope)) toIndexedSeq, scope)
+      case Grouped(rawArgs) =>
+        val IndexedSeq(Literal(functionName), args @ _*) = rawArgs map (apply(_, scope))
+        scope.get(functionName).asInstanceOf[FunctionModel](args toIndexedSeq, scope)
       case Reference(key) => scope.get(key)  
       case x => x
-    } 
+    }
     override def apply(arguments: IndexedSeq[Value], scope: Scope): Value =
       arguments.foldLeft[Value](Void())((_, x) => apply(x, scope))
+  }
+  object set extends FunctionModel {
+    override def apply(arguments: IndexedSeq[Value], scope: Scope): Value = arguments match {
+      case IndexedSeq(Literal(key), value) =>
+        scope.put(key, value)
+        Void()
+    }
   }
   object proc extends FunctionModel {
     def apply(arguments: IndexedSeq[Value], scope: Scope): Value = arguments match {
@@ -43,5 +51,5 @@ package object builtins {
       }.sum.toString)
   }
     
-  def prelude() = Scope(None, Map("+" -> +, "eval" -> eval, "proc" -> proc))
+  def prelude() = Scope(None, Map("+" -> +, "eval" -> eval, "proc" -> proc, "set" -> set))
 }
